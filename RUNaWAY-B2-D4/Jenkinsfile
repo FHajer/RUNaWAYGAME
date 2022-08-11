@@ -1,13 +1,14 @@
 pipeline {
     agent any
     environment {
-        DOCKERHUB_CREDENTIALS=credentials('saeed-dockerhub-token')
-        AWS_ACCESS_KEY_ID     = credentials('saeed-aws-secret-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('Saeed-aws-secret-access-key')
+        DOCKERHUB_CREDENTIALS_PWS = credentials('Hajer-dockerhub-token')
+        DOCKERHUB_CREDENTIALS_USR = '000h'
+        AWS_ACCESS_KEY_ID     = credentials('hajer-aws-secret-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('hajer-aws-secret-access-key')
         ARTIFACT_NAME = 'Dockerrun.aws.json'
-        AWS_S3_BUCKET = 'saeed-belt2d4-artifacts-123456'
-        AWS_EB_APP_NAME = 'Saeed-sample-application-b2d4'
-        AWS_EB_ENVIRONMENT = 'Saeedsampleapplicationb2d4-env'
+        AWS_S3_BUCKET = 'hajer-belt2-artifacts-123456'
+        AWS_EB_APP_NAME = 'Beltexam2day4Hajer'
+        AWS_EB_ENVIRONMENT = 'Beltexam2day4hajer-env'
         AWS_EB_APP_VERSION = "${BUILD_ID}"
     } 
     
@@ -17,7 +18,7 @@ pipeline {
         stage('Build') {
             steps {
                 
-                sh 'docker build -t skag07/saeed-belt2-day4:latest .'
+                sh 'docker build -t 000h/runway:latest .'
 
                 
             }
@@ -27,14 +28,14 @@ pipeline {
         stage('Login') {
 
 			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+				sh 'docker login -u=$DOCKERHUB_CREDENTIALS_USR -p=$DOCKERHUB_CREDENTIALS_PWS'
 			}
 		}
 
         stage('Push') {
 
 			steps {
-				sh 'docker push skag07/saeed-belt2-day4:latest'
+				sh 'docker push 000h/runway:latest'
 			}
 		}
 
